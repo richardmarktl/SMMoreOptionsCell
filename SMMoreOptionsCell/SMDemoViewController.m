@@ -84,12 +84,17 @@ static NSString *Identifier = @"Identifier";
 }
 
 - (void)didTouchOnMore:(SMDemoCell *)cell {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:cell.demoLabel.text
-                                                    message:nil
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:nil];
-    [alert show];
+    double delayInSeconds = 0.25;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:cell.demoLabel.text
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:nil];
+        [alert show];
+    });
+
 }
 
 @end
