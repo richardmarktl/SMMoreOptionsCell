@@ -1,10 +1,10 @@
 SMMoreOptionsCell
 =================
 
-A more options cell implementation, as seen in the Mail.app on iOS7.
+A more options cell implementation, as seen in the Mail app on iOS7.
 
 
-**Cookbook**:
+**UITableViewCell**:
 	
     // .h
 	@interface SMDemoCell : SMMoreOptionsCell
@@ -24,3 +24,25 @@ A more options cell implementation, as seen in the Mail.app on iOS7.
 	    return self;
 	}
 
+**View Controller**:
+
+	- (void)viewDidLoad {
+	    ...
+    	[self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:Identifier];
+    	...
+    }
+        
+    - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+        SMDemoCell *cell = (SMDemoCell *)[tableView dequeueReusableCellWithIdentifier:Identifier];
+        cell.delegate = self;
+        cell.demoLabel.text = _data[indexPath.row];
+        return cell;
+    }
+        
+    - (void)didTouchOnDelete:(SMDemoCell *)cell {
+		// add your source code
+    }
+    
+    - (void)didTouchOnMore:(SMDemoCell *)cell {
+		// add your source code
+	}

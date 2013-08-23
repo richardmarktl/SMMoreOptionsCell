@@ -68,6 +68,7 @@ static NSString *Identifier = @"Identifier";
 #pragma mark - UITableViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    // this will hide any open menu
     [[NSNotificationCenter defaultCenter] postNotificationName:SMMoreOptionsHideNotification object:nil];
 }
 
