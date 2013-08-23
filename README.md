@@ -3,6 +3,7 @@ SMMoreOptionsCell
 
 A more options cell implementation, as seen in the Mail app on iOS7.
 
+The SMMoreOptionsCell.xcodeproj contains a demo project.
 
 **UITableViewCell**:
 	
