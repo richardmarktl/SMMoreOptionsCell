@@ -216,6 +216,19 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Private Methods 
+
+- (void)_optionsViewDidDisappear {
+    if ( _optionsFlags.delegateDidHideOptions && _optionsFlags.optionsVisible ) {
+        [_delegate cellDidHideOptions:self];
+    }
+    
+    _optionsFlags.optionsVisible = NO;
+    _scrollViewOptionsView.hidden = YES;
+    _scrollView.userInteractionEnabled = NO;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
@@ -235,6 +248,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat x = _scrollView.contentOffset.x;
     if ( x < 0 ) {
+        NSLog(@"negative scrolling");
         [_scrollView setContentOffset:CGPointZero]; // prevent scrolling into the left direction
     }
     
@@ -246,11 +260,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if ( _scrollView.contentOffset.x == 0.0f ) {
-        if ( _optionsFlags.delegateDidHideOptions && _optionsFlags.optionsVisible ) {
-            [_delegate cellDidHideOptions:self];
-        }
-        _scrollViewOptionsView.hidden = YES;
-        _optionsFlags.optionsVisible = NO;
+        [self _optionsViewDidDisappear];
     }
 }
 
@@ -261,13 +271,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
         }
         _optionsFlags.optionsVisible = YES;
     } else if ( _scrollView.contentOffset.x == 0.0f ) {
-        if ( _optionsFlags.delegateDidHideOptions && _optionsFlags.optionsVisible ) {
-            [_delegate cellDidHideOptions:self];
-        }
-
-        _optionsFlags.optionsVisible = NO;
-        _scrollViewOptionsView.hidden = YES;
-        _scrollView.userInteractionEnabled = NO;
+        [self _optionsViewDidDisappear];
     }
 }
 
@@ -310,12 +314,16 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
             [_scrollView setContentOffset:CGPointMake(MAX((_start.x - position.x), 0.0f), 0.0f)];
         } break;
         case UIGestureRecognizerStateEnded: {
-            if ( _scrollView.contentOffset.x > ceilf(_scrollViewOptionsWidth/2.0f) ) {
+            if ( _scrollView.contentOffset.x >= ceilf(_scrollViewOptionsWidth/2.0f) ) {
                 [_scrollView setContentOffset:CGPointMake(_scrollViewOptionsWidth, 0.0f) animated:YES];
                 _scrollView.userInteractionEnabled = YES;
             } else {
-                [_scrollView setContentOffset:CGPointZero animated:YES];
-                _scrollView.userInteractionEnabled = NO;
+                if ( _scrollView.contentOffset.x == 0.0f ) {
+                    [self _optionsViewDidDisappear]; // In the case the pan gesture ended at 0.0
+                } else {
+                    [_scrollView setContentOffset:CGPointZero animated:YES];
+                    _scrollView.userInteractionEnabled = NO;
+                }
             }
         } break;
         case UIGestureRecognizerStateCancelled:

@@ -62,7 +62,7 @@ static NSString *Identifier = @"Identifier";
     cell.demoLabel.text = _data[indexPath.row];
     if ( (indexPath.row % 3) == 1) {  // 1. Sample set your own costum buttons
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setTitle:NSLocalizedString(@"Costum", @"") forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedString(@"Custom", @"") forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [button setBackgroundColor:[UIColor blueColor]];
         [button setAdjustsImageWhenHighlighted:YES];
@@ -71,7 +71,7 @@ static NSString *Identifier = @"Identifier";
         
         UIButton *checkedButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [checkedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [checkedButton setBackgroundColor:[UIColor whiteColor]];
+        [checkedButton setBackgroundColor:[UIColor colorWithWhite:0.95 alpha:1.0f]];
         [checkedButton setAdjustsImageWhenHighlighted:YES];
         [checkedButton.titleLabel setFont:[UIFont systemFontOfSize:[UIFont buttonFontSize]]];
         [checkedButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
@@ -79,7 +79,7 @@ static NSString *Identifier = @"Identifier";
     } else if ( (indexPath.row % 3) == 2) { // 2. Sample set your costum view
         UILabel *costumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         costumLabel.backgroundColor = [UIColor lightGrayColor];
-        costumLabel.text = @"A nice custom view.";
+        costumLabel.text = @" A custom view. ";
         cell.scrollViewOptionsView = costumLabel;
     }
     return cell;
