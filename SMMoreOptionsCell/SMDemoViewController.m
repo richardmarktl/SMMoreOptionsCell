@@ -11,6 +11,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static NSString *Identifier = @"Identifier";
+static NSString *IdentifierOne = @"IdentifierOne";
+static NSString *IdentifierTwo = @"IdentifierTwo";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface SMDemoViewController () <SMMoreOptionsDelegate> {
@@ -45,9 +47,18 @@ static NSString *Identifier = @"Identifier";
     [super viewDidLoad];
     [self.tableView setRowHeight:64.0f];
     [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:Identifier];
-    [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:Identifier];
+    [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:IdentifierOne];
+    [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:IdentifierTwo];
 }
 
+- (NSString *)identiferForIndexPath:(NSIndexPath *)path {
+   if ( (path.row % 3) == 1) {
+       return IdentifierOne;
+    } else if ( (path.row % 3) == 2) {
+        return IdentifierTwo;
+    }
+    return Identifier;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UITableViewDataSource 
@@ -57,10 +68,12 @@ static NSString *Identifier = @"Identifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *identifer = [self identiferForIndexPath:indexPath];
     SMDemoCell *cell = (SMDemoCell *)[tableView dequeueReusableCellWithIdentifier:Identifier];
     cell.delegate = self;
     cell.demoLabel.text = _data[indexPath.row];
-    if ( (indexPath.row % 3) == 1) {  // 1. Sample set your own costum buttons
+    
+    if ( identifer == IdentifierOne ) {  // 1. Sample set your own costum buttons
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:NSLocalizedString(@"Custom", @"") forState:UIControlStateNormal];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -76,12 +89,13 @@ static NSString *Identifier = @"Identifier";
         [checkedButton.titleLabel setFont:[UIFont systemFontOfSize:[UIFont buttonFontSize]]];
         [checkedButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
         cell.moreButton = checkedButton;
-    } else if ( (indexPath.row % 3) == 2) { // 2. Sample set your costum view
+    } else if ( identifer == IdentifierTwo ) { // 2. Sample set your costum view
         UILabel *costumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         costumLabel.backgroundColor = [UIColor lightGrayColor];
         costumLabel.text = @" A custom view. ";
         cell.scrollViewOptionsView = costumLabel;
     }
+    
     return cell;
 }
 
