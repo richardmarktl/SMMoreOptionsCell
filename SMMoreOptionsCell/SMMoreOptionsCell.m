@@ -295,8 +295,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 }
 
 - (void)_handlePanGesture:(UIPanGestureRecognizer *)gesture {
-    NSLog(@"_handlePanGesture %@", gesture);
-    if ( self.selected ) // Is the cell selected to nothing to prevent undefined behaviour.
+    if ( self.selected || self.isEditing ) // Is the cell selected do nothing to prevent undefined behaviour.
         return;
     
     CGPoint position = [gesture locationInView:self];
@@ -304,8 +303,6 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
         case UIGestureRecognizerStateBegan: {
             _start = position;
             _scrollViewOptionsView.hidden = NO;
-            
-            NSLog(@"%@", _scrollViewOptionsView);
             [[NSNotificationCenter defaultCenter] postNotificationName:SMMoreOptionsShouldHideNotification object:self];
         } break;
         case UIGestureRecognizerStateChanged: {
