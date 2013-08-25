@@ -1,8 +1,9 @@
 //
 //  SMMoreOptionsCell.m
-//  iTranslate
+//  SMMoreOptionsCell
 //
-//  Created by Richard Marktl on 23.08.13.
+//  Created by Richard Marktl (@richmarktl) on 23.08.13.
+//  Copyright (c) 2013 Richard Marktl (@richmarktl). All rights reserved.
 //
 //
 

@@ -12,7 +12,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static NSString *Identifier = @"Identifier";
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface SMDemoViewController () <SMMoreOptionsDelegate> {
     NSMutableArray *_data;
@@ -46,6 +45,7 @@ static NSString *Identifier = @"Identifier";
     [super viewDidLoad];
     [self.tableView setRowHeight:64.0f];
     [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:Identifier];
+    [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:Identifier];
 }
 
 
@@ -60,6 +60,28 @@ static NSString *Identifier = @"Identifier";
     SMDemoCell *cell = (SMDemoCell *)[tableView dequeueReusableCellWithIdentifier:Identifier];
     cell.delegate = self;
     cell.demoLabel.text = _data[indexPath.row];
+    if ( (indexPath.row % 3) == 1) {  // 1. Sample set your own costum buttons
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:NSLocalizedString(@"Costum", @"") forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setBackgroundColor:[UIColor blueColor]];
+        [button setAdjustsImageWhenHighlighted:YES];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:[UIFont buttonFontSize]]];
+        cell.deleteButton = button;
+        
+        UIButton *checkedButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [checkedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [checkedButton setBackgroundColor:[UIColor whiteColor]];
+        [checkedButton setAdjustsImageWhenHighlighted:YES];
+        [checkedButton.titleLabel setFont:[UIFont systemFontOfSize:[UIFont buttonFontSize]]];
+        [checkedButton setImage:[UIImage imageNamed:@"checked"] forState:UIControlStateNormal];
+        cell.moreButton = checkedButton;
+    } else if ( (indexPath.row % 3) == 2) { // 2. Sample set your costum view
+        UILabel *costumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        costumLabel.backgroundColor = [UIColor lightGrayColor];
+        costumLabel.text = @"A nice custom view.";
+        cell.scrollViewOptionsView = costumLabel;
+    }
     return cell;
 }
 
