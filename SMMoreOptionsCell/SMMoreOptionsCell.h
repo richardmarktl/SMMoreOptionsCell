@@ -18,7 +18,8 @@
 
 @property (nonatomic, strong) UIView *scrollViewContentView;  // This content view is above the more options view.
 
-// This scrollViewOptionsView contains per default the following 2 buttons, feel free to set your own options view.
+// This scrollViewOptionsView contains per default the following 2 buttons, feel free to set your own options view. The
+// options view is always set to hidden if not visible through the scroll behaviour.
 @property (nonatomic, strong) UIView *scrollViewOptionsView;
 @property (nonatomic, strong) UIButton *moreButton;  // set your own button or modify the existing button
 @property (nonatomic, strong) UIButton *deleteButton;  // set your own button or modify the existing button
@@ -52,4 +53,4 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 extern CGFloat const SMMoreOptionsDefaultContentWidth;
-extern NSString * const SMMoreOptionsHideNotification;       // post this notification to hide currently visible options
+extern NSString * const SMMoreOptionsShouldHideNotification;       // post this notification to hide currently visible options

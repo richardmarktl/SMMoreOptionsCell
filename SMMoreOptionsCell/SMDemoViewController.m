@@ -68,13 +68,26 @@ static NSString *Identifier = @"Identifier";
 #pragma mark - UITableViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    // this will hide any open menu
-    [[NSNotificationCenter defaultCenter] postNotificationName:SMMoreOptionsHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SMMoreOptionsShouldHideNotification object:nil];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"didSelectRowAtIndexPath: %@", indexPath);
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - SMMoreOptionsDelegate
+
+- (void)cellDidHideOptions:(SMMoreOptionsCell *)cell {
+    // add here your source for optional behaviour
+    NSLog(@"cellDidHideOptions");
+}
+
+- (void)cellDidShowOptions:(SMMoreOptionsCell *)cell {
+    // add here your source for optional behaviour
+    NSLog(@"cellDidShowOptions");
+}
 
 - (void)didTouchOnDelete:(SMDemoCell *)cell {
     NSInteger row = [_data indexOfObject:cell.demoLabel.text];
@@ -84,17 +97,12 @@ static NSString *Identifier = @"Identifier";
 }
 
 - (void)didTouchOnMore:(SMDemoCell *)cell {
-    double delayInSeconds = 0.25;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:cell.demoLabel.text
-                                                        message:nil
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:nil];
-        [alert show];
-    });
-
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:cell.demoLabel.text
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 @end
