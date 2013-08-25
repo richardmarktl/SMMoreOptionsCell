@@ -72,7 +72,8 @@ static NSString *Identifier = @"Identifier";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"didSelectRowAtIndexPath: %@", indexPath);
+    // This method is only implemented to demonstrate the didSelectRowAtIndexPath functionality
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

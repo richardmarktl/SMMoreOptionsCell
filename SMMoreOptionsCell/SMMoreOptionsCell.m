@@ -8,9 +8,20 @@
 
 #import "SMMoreOptionsCell.h"
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 CGFloat const SMMoreOptionsDefaultContentWidth = 150.0f;
 NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotification";
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@interface SMMoreOptionsCellGestureDelegate : NSObject <UIGestureRecognizerDelegate>
+
+@property (nonatomic, weak) UITableViewCell *cell;
+
+- (instancetype)initWithCell:(UITableViewCell *)cell;
+
+@end
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,6 +30,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     UIPanGestureRecognizer *_panGesture;
     
     CGPoint _start;
+    SMMoreOptionsCellGestureDelegate *_gestureDelegate;
     
     struct {
         unsigned int delegateDidHideOptions:1;
@@ -105,7 +117,6 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self initializeCellContent];
-        self.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     return self;
 }
@@ -132,12 +143,16 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
     
+    // The cell is already delegate of some gesture recognizer classes and to prevent conflicts use this object.
+    _gestureDelegate = [[SMMoreOptionsCellGestureDelegate alloc] initWithCell:self];
+    
     // Is only usable if the userInteractionEnabled property of the scrollview is set to YES.
     _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_handleSingleTap:)];
     
     // Is only usable if the userInteractionEnabled property of the scrollview is set to NO.
     _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handlePanGesture:)];
     _panGesture.minimumNumberOfTouches = 1;
+    _panGesture.delegate = _gestureDelegate;
     
     self.scrollViewContentView = [[UIView alloc] initWithFrame:CGRectZero];
     self.scrollViewContentView.backgroundColor = [UIColor whiteColor];
@@ -194,7 +209,8 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    [_scrollView setContentOffset:CGPointZero];
+    _scrollView.contentOffset = CGPointZero;
+    _scrollView.userInteractionEnabled = NO;
 }
 
 
@@ -243,8 +259,15 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
             [_delegate cellDidShowOptions:self];
         }
         _optionsFlags.optionsVisible = YES;
+    } else if ( _scrollView.contentOffset.x == 0.0f ) {
+        if ( _optionsFlags.delegateDidHideOptions && _optionsFlags.optionsVisible ) {
+            [_delegate cellDidHideOptions:self];
+        }
+
+        _optionsFlags.optionsVisible = NO;
+        _scrollViewOptionsView.hidden = YES;
+        _scrollView.userInteractionEnabled = NO;
     }
-    _scrollViewOptionsView.hidden = (scrollView.contentOffset.x == 0.0f);
 }
 
 
@@ -264,22 +287,25 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Gesture Methods
 
-- (void)_handleSingleTap:(UITapGestureRecognizer *)recognizer {
-    CGPoint point = [recognizer locationInView:_scrollView];
+- (void)_handleSingleTap:(UITapGestureRecognizer *)gesture {
+    CGPoint point = [gesture locationInView:_scrollView];
     if ( CGRectContainsPoint(_scrollViewContentView.frame, point) ) {
         [_scrollView setContentOffset:CGPointZero animated:YES];
     }
 }
 
-- (void)_handlePanGesture:(UIPanGestureRecognizer *)recognizer {
+- (void)_handlePanGesture:(UIPanGestureRecognizer *)gesture {
+    NSLog(@"_handlePanGesture %@", gesture);
     if ( self.selected ) // Is the cell selected to nothing to prevent undefined behaviour.
         return;
     
-    CGPoint position = [recognizer locationInView:self];
-    switch (recognizer.state) {
+    CGPoint position = [gesture locationInView:self];
+    switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
             _start = position;
             _scrollViewOptionsView.hidden = NO;
+            
+            NSLog(@"%@", _scrollViewOptionsView);
             [[NSNotificationCenter defaultCenter] postNotificationName:SMMoreOptionsShouldHideNotification object:self];
         } break;
         case UIGestureRecognizerStateChanged: {
@@ -314,6 +340,27 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
         return;
     
     [_scrollView setContentOffset:CGPointZero animated:YES];
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+@implementation SMMoreOptionsCellGestureDelegate
+
+- (instancetype)initWithCell:(UITableViewCell *)cell {
+    if (self = [super init]) {
+        self.cell = cell;
+    }
+    return self;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gesture {
+    // The cell only reacts on horizontal gestures, otherwise the table will block
+    CGPoint translation = [gesture translationInView:self.cell.superview];
+    return (fabsf(translation.x) > fabsf(translation.y));
 }
 
 @end
