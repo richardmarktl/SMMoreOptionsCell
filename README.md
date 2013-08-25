@@ -27,6 +27,7 @@ For more information look at the SMMoreOptionsCell.xcodeproj it contains a demo 
 
 The SMMoreOptionsCell contains properties that can be customized for your own good.
 ```objective-c
+@property (nonatomic, strong) UIView *scrollViewOptionsView;
 @property (nonatomic, strong) UIButton *moreButton;  // set your own button or modify the existing button
 @property (nonatomic, strong) UIButton *deleteButton;  // set your own button or modify the existing button
 @property (nonatomic, assign) CGFloat scrollViewOptionsWidth;  // set width of the options view, default 150 px
