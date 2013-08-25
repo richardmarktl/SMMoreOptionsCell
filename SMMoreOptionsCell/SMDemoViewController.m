@@ -39,6 +39,7 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
                 [_data addObject:name];
             }
         }
+        
     }
     return self;
 }
@@ -49,6 +50,11 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
     [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:Identifier];
     [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:IdentifierOne];
     [self.tableView registerClass:[SMDemoCell class] forCellReuseIdentifier:IdentifierTwo];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                                          target:self
+                                                                          action:@selector(_touchOnEdit:)];
+    self.navigationItem.leftBarButtonItem = item;
 }
 
 - (NSString *)identiferForIndexPath:(NSIndexPath *)path {
@@ -141,5 +147,20 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
                                           otherButtonTitles:nil];
     [alert show];
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Action Methods
+
+- (void)_touchOnEdit:(UIBarButtonItem *)item {
+    [self setEditing:YES animated:YES];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_touchOnCancel:)];
+}
+
+- (void)_touchOnCancel:(UIBarButtonItem *)item {
+    [self setEditing:NO animated:YES];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(_touchOnEdit:)];
+}
+
+
 
 @end

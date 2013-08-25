@@ -214,6 +214,12 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     _scrollView.userInteractionEnabled = NO;
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    if ( _optionsFlags.optionsVisible ) {
+        [_scrollView setContentOffset:CGPointZero animated:animated];
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Methods 
@@ -251,15 +257,17 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat x = _scrollView.contentOffset.x;
+    CGRect bounds = self.contentView.bounds;
     if ( x < 0 ) {
-        NSLog(@"negative scrolling");
         [_scrollView setContentOffset:CGPointZero]; // prevent scrolling into the left direction
     }
     
-    self.scrollViewOptionsView.frame = CGRectMake(x + CGRectGetWidth(self.contentView.bounds) - _scrollViewOptionsWidth,
+    if ( self.isEditing )
+        return;
+    self.scrollViewOptionsView.frame = CGRectMake((x + bounds.size.width) - _scrollViewOptionsWidth,
                                                   0.0f,
                                                   _scrollViewOptionsWidth,
-                                                  CGRectGetHeight(self.contentView.bounds));
+                                                  bounds.size.height);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -339,7 +347,6 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
             break;
     }
 }
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
