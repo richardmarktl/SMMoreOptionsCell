@@ -245,7 +245,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
         
         _scrollView.userInteractionEnabled = YES;
     } else {
-        if ( targetContentOffset->x == 0.0f ) {
+        if ( targetContentOffset->x <= 0.0f ) {
             [self _optionsViewDidDisappear];
         } else {
             targetContentOffset->x = 0.0f;
