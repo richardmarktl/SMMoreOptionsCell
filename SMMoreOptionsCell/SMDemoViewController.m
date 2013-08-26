@@ -57,6 +57,11 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
     self.navigationItem.leftBarButtonItem = item;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:animated];
+}
+
 - (NSString *)identiferForIndexPath:(NSIndexPath *)path {
    if ( (path.row % 3) == 1) {
        return IdentifierOne;
@@ -65,6 +70,7 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
     }
     return Identifier;
 }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UITableViewDataSource 
@@ -75,7 +81,7 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifer = [self identiferForIndexPath:indexPath];
-    SMDemoCell *cell = (SMDemoCell *)[tableView dequeueReusableCellWithIdentifier:Identifier];
+    SMDemoCell *cell = (SMDemoCell *)[tableView dequeueReusableCellWithIdentifier:identifer];
     cell.delegate = self;
     cell.demoLabel.text = _data[indexPath.row];
     
