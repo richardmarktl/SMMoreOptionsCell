@@ -229,8 +229,18 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     }
     
     _optionsFlags.optionsVisible = NO;
+    _panGesture.enabled = YES;
     _scrollViewOptionsView.hidden = YES;
     _scrollView.userInteractionEnabled = NO;
+}
+
+- (void)_optionsViewDidAppear {
+    if ( _optionsFlags.delegateDidShowOptions && !_optionsFlags.optionsVisible ) {
+        [_delegate cellDidShowOptions:self];
+    }
+    
+    _optionsFlags.optionsVisible = YES;
+    _panGesture.enabled = NO;
 }
 
 
@@ -288,10 +298,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     if ( _scrollView.contentOffset.x == _scrollViewOptionsWidth ) {
-        if ( _optionsFlags.delegateDidShowOptions && !_optionsFlags.optionsVisible ) {
-            [_delegate cellDidShowOptions:self];
-        }
-        _optionsFlags.optionsVisible = YES;
+        [self _optionsViewDidAppear];
     } else if ( _scrollView.contentOffset.x == 0.0f ) {
         [self _optionsViewDidDisappear];
     }
