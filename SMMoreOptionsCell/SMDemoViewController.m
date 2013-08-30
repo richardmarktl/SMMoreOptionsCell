@@ -17,6 +17,7 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface SMDemoViewController () <SMMoreOptionsDelegate> {
     NSMutableArray *_data;
+    SMMoreOptionsCell *_cell;
 }
 
 @end
@@ -152,7 +153,18 @@ static NSString *IdentifierTwo = @"IdentifierTwo";
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:nil];
     [alert show];
+    _cell = cell;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [_cell dismissOptionsAnimated:YES];
+    _cell = nil;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Action Methods

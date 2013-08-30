@@ -29,6 +29,8 @@
 
 @property (nonatomic, weak) id<SMMoreOptionsDelegate> delegate;
 
+- (void)dismissOptionsAnimated:(BOOL)animated;  // in the case the options are visble the view will dismiss them
+
 @end
 
 

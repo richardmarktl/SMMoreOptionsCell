@@ -133,8 +133,6 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     _scrollView.directionalLockEnabled = YES;
-    _scrollView.bounces = NO;
-    _scrollView.alwaysBounceHorizontal = NO;
     _scrollView.backgroundColor = [UIColor whiteColor];
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.userInteractionEnabled = NO; // Set NO to enable the tableView:didSelectRowAtIndexPath: behaviour.
@@ -221,6 +219,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     }
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Private Methods 
 
@@ -234,6 +233,15 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     _scrollView.userInteractionEnabled = NO;
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Public Methods
+
+- (void)dismissOptionsAnimated:(BOOL)animated {
+    [_scrollView setContentOffset:CGPointZero animated:YES];
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UIScrollViewDelegate
 
@@ -245,7 +253,8 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
         
         _scrollView.userInteractionEnabled = YES;
     } else {
-        if ( targetContentOffset->x <= 0.0f ) {
+        if ( targetContentOffset->x <= 0.0f && _scrollView.contentOffset.x <= 0.0f ) {
+            
             [self _optionsViewDidDisappear];
         } else {
             targetContentOffset->x = 0.0f;
@@ -264,6 +273,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     
     if ( self.isEditing )
         return;
+    
     self.scrollViewOptionsView.frame = CGRectMake((x + bounds.size.width) - _scrollViewOptionsWidth,
                                                   0.0f,
                                                   _scrollViewOptionsWidth,
@@ -293,7 +303,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)_touchOnDelete:(UIButton *)button {
     [_delegate didTouchOnDelete:self];
-    [_scrollView setContentOffset:CGPointZero animated:YES];
+    [self dismissOptionsAnimated:YES];
 }
 
 - (void)_touchOnMore:(UIButton *)button {
@@ -307,12 +317,13 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 - (void)_handleSingleTap:(UITapGestureRecognizer *)gesture {
     CGPoint point = [gesture locationInView:_scrollView];
     if ( CGRectContainsPoint(_scrollViewContentView.frame, point) ) {
-        [_scrollView setContentOffset:CGPointZero animated:YES];
+        [self dismissOptionsAnimated:YES];
     }
 }
 
 - (void)_handlePanGesture:(UIPanGestureRecognizer *)gesture {
-    if ( self.selected || self.isEditing ) // Is the cell selected do nothing to prevent undefined behaviour.
+    // Is the cell selected or isEditing set do nothing to prevent undefined behaviour.
+    if ( self.selected || self.isEditing || _optionsFlags.optionsVisible)
         return;
     
     CGPoint position = [gesture locationInView:self];

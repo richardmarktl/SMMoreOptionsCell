@@ -13,6 +13,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    __iOS7B5CleanConsoleOutput();
+    
     SMDemoViewController *rootController = [[SMDemoViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:rootController];
     
@@ -20,6 +22,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = controller;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -49,5 +52,29 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark IOS7 AssertMacros: Bug Fix
+// clean the console output.
+
+typedef int (*PYStdWriter)(void *, const char *, int);
+
+static PYStdWriter _oldStdWrite;
+
+int __pyStderrWrite(void *inFD, const char *buffer, int size)
+{
+    if ( strncmp(buffer, "AssertMacros:", 13) == 0 ) {
+        return 0;
+    }
+    return _oldStdWrite(inFD, buffer, size);
+}
+
+void __iOS7B5CleanConsoleOutput(void)
+{
+    _oldStdWrite = stderr->_write;
+    stderr->_write = __pyStderrWrite;
+}
+
 
 @end
