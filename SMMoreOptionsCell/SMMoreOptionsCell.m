@@ -11,7 +11,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CGFloat const SMMoreOptionsDefaultContentWidth = 150.0f;
+const CGFloat SMMoreOptionsDefaultContentWidth = 150.0f;
 NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotification";
 
 
