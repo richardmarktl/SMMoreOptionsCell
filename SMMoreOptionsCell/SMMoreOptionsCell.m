@@ -122,9 +122,11 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [self initializeCellContent];
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if ( self = [super initWithCoder:aDecoder] ) {
+        [self initializeCellContent];
+    }
+    return self;
 }
 
 - (void)initializeCellContent {
@@ -210,6 +212,9 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     [super prepareForReuse];
     _scrollView.contentOffset = CGPointZero;
     _scrollView.userInteractionEnabled = NO;
+    _scrollViewOptionsView.hidden = YES;
+    _panGesture.enabled = YES;
+    _optionsFlags.optionsVisible = NO;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -330,10 +335,12 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)_handlePanGesture:(UIPanGestureRecognizer *)gesture {
     // Is the cell selected or isEditing set do nothing to prevent undefined behaviour.
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if ( self.selected || self.isEditing || _optionsFlags.optionsVisible)
         return;
     
     CGPoint position = [gesture locationInView:self];
+    NSLog(@"%@", NSStringFromCGPoint(position));
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
             _start = position;
@@ -379,6 +386,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 @end
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation SMMoreOptionsCellGestureDelegate
 
@@ -395,7 +403,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gesture {
     // The cell only reacts on horizontal gestures, otherwise the table will block
     CGPoint translation = [gesture translationInView:self.cell.superview];
-    return (fabsf(translation.x) > fabsf(translation.y));
+    return (fabs(translation.x) > fabs(translation.y));
 }
 
 @end
