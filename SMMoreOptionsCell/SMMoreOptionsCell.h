@@ -55,4 +55,4 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 extern const CGFloat SMMoreOptionsDefaultContentWidth;
-extern NSString * const SMMoreOptionsShouldHideNotification;       // post this notification to hide currently visible options
+extern NSString * const SMMoreOptionsShouldHideNotification; // post this notification to hide currently visible options
