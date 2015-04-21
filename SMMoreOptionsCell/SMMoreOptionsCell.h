@@ -15,8 +15,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface SMMoreOptionsCell : UITableViewCell
 
-@property (nonatomic, strong, readonly) UIScrollView *scrollView;
-
 @property (nonatomic, strong) UIView *scrollViewContentView;  // This content view is above the more options view.
 
 // This scrollViewOptionsView contains per default the following 2 buttons, feel free to set your own options view. In

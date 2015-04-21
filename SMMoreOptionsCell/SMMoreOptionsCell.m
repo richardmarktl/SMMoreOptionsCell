@@ -11,8 +11,9 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const CGFloat SMMoreOptionsDefaultContentWidth = 150.0f;
-NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotification";
+CGFloat const SMMoreOptionsDefaultContentWidth = 150.0f;
+CGFloat const SMMoreOptionsAnimationDuration = 0.25f;
+NSString *const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotification";
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,18 +28,17 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface SMMoreOptionsCell () <UIScrollViewDelegate> {
-    UITapGestureRecognizer *_tapGesture;
-    UIPanGestureRecognizer *_panGesture;
-    
-    CGPoint _start;
-    SMMoreOptionsCellGestureDelegate *_gestureDelegate;
-    
     struct {
         unsigned int delegateDidHideOptions:1;
         unsigned int delegateDidShowOptions:1;
         unsigned int optionsVisible:1;
     } _optionsFlags;
 }
+
+@property (nonatomic, strong) SMMoreOptionsCellGestureDelegate *gestureDelegate;
+@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UIButton *singleTapButton;
+@property (nonatomic, assign) CGPoint start;
 
 @end
 
@@ -65,7 +65,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     [_scrollViewContentView removeFromSuperview]; // remove the old view
     
     _scrollViewContentView = swipeContentView;
-    [_scrollView addSubview:_scrollViewContentView];
+    [self.contentView addSubview:_scrollViewContentView];
     [self setNeedsLayout];
 }
 
@@ -77,7 +77,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     
     _scrollViewOptionsView = optionsContentView;
     _scrollViewOptionsView.hidden = !_optionsFlags.optionsVisible;
-    [_scrollView insertSubview:_scrollViewOptionsView atIndex:0];
+    [self.contentView insertSubview:_scrollViewOptionsView belowSubview:self.scrollViewContentView];
     [self setNeedsLayout];
 }
 
@@ -88,7 +88,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     
     _deleteButton = deleteButton;
     [_deleteButton addTarget:self action:@selector(_touchOnDelete:) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollViewOptionsView addSubview:_deleteButton];
+    [self.scrollViewOptionsView addSubview:_deleteButton];
     [self setNeedsLayout];
 }
 
@@ -99,7 +99,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     
     _moreButton = moreButton;
     [_moreButton addTarget:self action:@selector(_touchOnMore:) forControlEvents:UIControlEventTouchUpInside];
-    [_scrollViewOptionsView addSubview:_moreButton];
+    [self.scrollViewOptionsView addSubview:_moreButton];
     [self setNeedsLayout];
 }
 
@@ -130,36 +130,29 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 }
 
 - (void)initializeCellContent {
-    _scrollViewOptionsWidth = SMMoreOptionsDefaultContentWidth;
+    self.scrollViewOptionsWidth = SMMoreOptionsDefaultContentWidth;
     _optionsFlags.optionsVisible = NO;
-    
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-    _scrollView.directionalLockEnabled = YES;
-    _scrollView.backgroundColor = [UIColor whiteColor];
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.userInteractionEnabled = NO; // Set NO to enable the tableView:didSelectRowAtIndexPath: behaviour.
-    _scrollView.delegate = self;
-    [self.contentView addSubview:_scrollView];
     
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.detailTextLabel.backgroundColor = [UIColor clearColor];
     
     // The cell is already delegate of some gesture recognizer classes and to prevent conflicts use this object.
-    _gestureDelegate = [[SMMoreOptionsCellGestureDelegate alloc] initWithCell:self];
-    
-    // Is only usable if the userInteractionEnabled property of the scrollview is set to YES.
-    _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_handleSingleTap:)];
+    self.gestureDelegate = [[SMMoreOptionsCellGestureDelegate alloc] initWithCell:self];
     
     // Is only usable if the userInteractionEnabled property of the scrollview is set to NO.
-    _panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handlePanGesture:)];
-    _panGesture.minimumNumberOfTouches = 1;
-    _panGesture.delegate = _gestureDelegate;
+    self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handlePanGesture:)];
+    self.panGesture.minimumNumberOfTouches = 1;
+    self.panGesture.delegate = self.gestureDelegate;
     
     self.scrollViewContentView = [[UIView alloc] initWithFrame:CGRectZero];
     self.scrollViewContentView.backgroundColor = [UIColor whiteColor];
     
     self.scrollViewOptionsView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    self.singleTapButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.singleTapButton.backgroundColor = [UIColor clearColor];
+    [self.singleTapButton addTarget:self action:@selector(_handleSingleTap:) forControlEvents:UIControlEventTouchUpInside];
+
     UIColor *red = [UIColor colorWithRed:(251.0f/255.0f) green:(59.0f/255.0f) blue:(56.0f/255) alpha:1.0f];
     UIImage *redImage = [UIImage imageWithColor:red];
     UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -180,9 +173,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     [moreButton.titleLabel setFont:[UIFont systemFontOfSize:[UIFont buttonFontSize]]];
     self.moreButton = moreButton;
     
-    [_scrollView addSubview:self.scrollViewContentView];
-    [_scrollView addGestureRecognizer:_tapGesture];
-    [self.contentView addGestureRecognizer:_panGesture];
+    [self.contentView addGestureRecognizer:self.panGesture];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(_receivedHideNotification:)
@@ -197,30 +188,31 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGRect bounds = self.contentView.bounds;
-    _scrollView.frame = bounds;
-    _scrollView.contentSize = CGSizeMake(bounds.size.width + _scrollViewOptionsWidth, bounds.size.height);
-    _scrollView.contentInset = UIEdgeInsetsMake(0.0f, _scrollViewOptionsWidth, 0.0f, 0.0f);
     
+    self.scrollViewOptionsView.frame = CGRectMake(bounds.size.width - self.scrollViewOptionsWidth,
+                                                  0.0f,
+                                                  self.scrollViewOptionsWidth,
+                                                  bounds.size.height);
     self.scrollViewContentView.frame = bounds;
     
-    CGFloat buttonWidth = ceilf(_scrollViewOptionsWidth/2);
+    CGFloat buttonWidth = ceilf(self.scrollViewOptionsWidth/2);
     self.moreButton.frame = CGRectMake(0.0f, 0.0f, buttonWidth, bounds.size.height);
     self.deleteButton.frame = CGRectMake(buttonWidth, 0.0f, buttonWidth, bounds.size.height);
+    self.singleTapButton.frame = bounds;
 }
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    _scrollView.contentOffset = CGPointZero;
-    _scrollView.userInteractionEnabled = NO;
-    _scrollViewOptionsView.hidden = YES;
-    _panGesture.enabled = YES;
+    self.scrollViewContentView.frame = self.contentView.bounds;
+    self.scrollViewOptionsView.hidden = YES;
     _optionsFlags.optionsVisible = NO;
+    [self.singleTapButton removeFromSuperview];
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     if ( _optionsFlags.optionsVisible ) {
-        [_scrollView setContentOffset:CGPointZero animated:animated];
+        [self dismissOptionsAnimated:animated];
     }
 }
 
@@ -230,83 +222,55 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 
 - (void)_optionsViewDidDisappear {
     if ( _optionsFlags.delegateDidHideOptions && _optionsFlags.optionsVisible ) {
-        [_delegate cellDidHideOptions:self];
+        [self.delegate cellDidHideOptions:self];
     }
-    
+
     _optionsFlags.optionsVisible = NO;
-    _panGesture.enabled = YES;
-    _scrollViewOptionsView.hidden = YES;
-    _scrollView.userInteractionEnabled = NO;
+    self.scrollViewOptionsView.hidden = YES;
+    [self.singleTapButton removeFromSuperview];
+
 }
 
 - (void)_optionsViewDidAppear {
     if ( _optionsFlags.delegateDidShowOptions && !_optionsFlags.optionsVisible ) {
-        [_delegate cellDidShowOptions:self];
+        [self.delegate cellDidShowOptions:self];
     }
     
     _optionsFlags.optionsVisible = YES;
-    _panGesture.enabled = NO;
+    self.scrollViewContentView.userInteractionEnabled = YES;
+    [self.scrollViewContentView addSubview:self.singleTapButton];
 }
 
+- (CGPoint)_scrollContentViewCenterForOffset:(CGFloat)offset {
+    CGFloat x = ceil(CGRectGetWidth(self.contentView.bounds)/2.0f);
+    
+    if ( _optionsFlags.optionsVisible == YES ) {
+        x -= ( self.scrollViewOptionsWidth + offset);
+    } else {
+        x -= MAX(offset, 0.0f);
+    }
+    
+    return CGPointMake(x, self.scrollViewContentView.center.y);
+}
+
+- (CGPoint)_scrollContentViewStartPoint {
+    return CGPointMake(ceil(CGRectGetWidth(self.contentView.bounds)/2.0f), self.scrollViewContentView.center.y);
+}
+
+- (CGPoint)_scrollContentViewEndPoint {
+    return CGPointMake(ceil(CGRectGetWidth(self.contentView.bounds)/2.0f) - self.scrollViewOptionsWidth,
+                       self.scrollViewContentView.center.y);
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Public Methods
 
 - (void)dismissOptionsAnimated:(BOOL)animated {
-    [_scrollView setContentOffset:CGPointZero animated:YES];
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
-                     withVelocity:(CGPoint)velocity
-              targetContentOffset:(inout CGPoint *)targetContentOffset {
-    if ( targetContentOffset->x > ceilf(_scrollViewOptionsWidth/2.0f) ) {
-        targetContentOffset->x = _scrollViewOptionsWidth;
-        
-        _scrollView.userInteractionEnabled = YES;
-    } else {
-        if ( targetContentOffset->x <= 0.0f && _scrollView.contentOffset.x <= 0.0f ) {
-            
-            [self _optionsViewDidDisappear];
-        } else {
-            targetContentOffset->x = 0.0f;
-
-            _scrollView.userInteractionEnabled = NO;
-        }
-    }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat x = _scrollView.contentOffset.x;
-    CGRect bounds = self.contentView.bounds;
-    if ( x < 0 ) {
-        [_scrollView setContentOffset:CGPointZero]; // prevent scrolling into the left direction
-    }
-    
-    if ( self.isEditing )
-        return;
-    
-    self.scrollViewOptionsView.frame = CGRectMake((x + bounds.size.width) - _scrollViewOptionsWidth,
-                                                  0.0f,
-                                                  _scrollViewOptionsWidth,
-                                                  bounds.size.height);
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if ( _scrollView.contentOffset.x == 0.0f ) {
+    [UIView animateWithDuration:(animated) ? SMMoreOptionsAnimationDuration : 0.0f animations:^(void) {
+        self.scrollViewContentView.frame = self.contentView.bounds;
+    } completion:^(BOOL finished) {
         [self _optionsViewDidDisappear];
-    }
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if ( _scrollView.contentOffset.x == _scrollViewOptionsWidth ) {
-        [self _optionsViewDidAppear];
-    } else if ( _scrollView.contentOffset.x == 0.0f ) {
-        [self _optionsViewDidDisappear];
-    }
+    }];
 }
 
 
@@ -314,59 +278,84 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
 #pragma mark - Button Action Methods
 
 - (void)_touchOnDelete:(UIButton *)button {
-    [_delegate didTouchOnDelete:self];
+    [self.delegate didTouchOnDelete:self];
     [self dismissOptionsAnimated:YES];
 }
 
 - (void)_touchOnMore:(UIButton *)button {
-    [_delegate didTouchOnMore:self];
+    [self.delegate didTouchOnMore:self];
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Gesture Methods
 
-- (void)_handleSingleTap:(UITapGestureRecognizer *)gesture {
-    CGPoint point = [gesture locationInView:_scrollView];
-    if ( CGRectContainsPoint(_scrollViewContentView.frame, point) ) {
-        [self dismissOptionsAnimated:YES];
-    }
+- (void)_handleSingleTap:(UIButton *)singleTabButton {
+    [self dismissOptionsAnimated:YES];
 }
+
 
 - (void)_handlePanGesture:(UIPanGestureRecognizer *)gesture {
     // Is the cell selected or isEditing set do nothing to prevent undefined behaviour.
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if ( self.selected || self.isEditing || _optionsFlags.optionsVisible)
+    if ( self.selected || self.isEditing )
         return;
     
     CGPoint position = [gesture locationInView:self];
-    NSLog(@"%@", NSStringFromCGPoint(position));
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan: {
-            _start = position;
-            _scrollViewOptionsView.hidden = NO;
+            self.start = position;
+            self.scrollViewOptionsView.hidden = NO;
             [[NSNotificationCenter defaultCenter] postNotificationName:SMMoreOptionsShouldHideNotification object:self];
         } break;
         case UIGestureRecognizerStateChanged: {
-            [_scrollView setContentOffset:CGPointMake(MAX((_start.x - position.x), 0.0f), 0.0f)];
+            self.scrollViewContentView.center = [self _scrollContentViewCenterForOffset:(self.start.x - position.x)];
         } break;
         case UIGestureRecognizerStateEnded: {
-            if ( _scrollView.contentOffset.x >= ceilf(_scrollViewOptionsWidth/2.0f) ) {
-                [_scrollView setContentOffset:CGPointMake(_scrollViewOptionsWidth, 0.0f) animated:YES];
-                _scrollView.userInteractionEnabled = YES;
-            } else {
-                if ( _scrollView.contentOffset.x == 0.0f ) {
-                    [self _optionsViewDidDisappear]; // In the case the pan gesture ended at 0.0
+            CGFloat distance = self.start.x - position.x;
+            CGFloat threshold = ceilf(_scrollViewOptionsWidth/2.0f);
+            
+            if ( _optionsFlags.optionsVisible == YES ) {
+                if ( fabs(distance) >= threshold ) {
+                    [UIView animateWithDuration:SMMoreOptionsAnimationDuration animations:^(void) {
+                        self.scrollViewContentView.center = [self _scrollContentViewStartPoint];
+                    } completion:^(BOOL finished) {
+                        [self _optionsViewDidDisappear];
+                    }];
                 } else {
-                    [_scrollView setContentOffset:CGPointZero animated:YES];
-                    _scrollView.userInteractionEnabled = NO;
+                    [UIView animateWithDuration:SMMoreOptionsAnimationDuration animations:^(void) {
+                        self.scrollViewContentView.center = [self _scrollContentViewEndPoint];
+                    }];
+                }
+            } else {
+                if (  MAX(distance, 0.0f) >= threshold ) {
+                    [UIView animateWithDuration:SMMoreOptionsAnimationDuration
+                                          delay:0.0f
+                         usingSpringWithDamping:0.8f
+                          initialSpringVelocity:0.0f
+                                        options:0
+                                     animations:^(void) {
+                                         self.scrollViewContentView.center = [self _scrollContentViewEndPoint];
+                                     }
+                                     completion:^(BOOL finished) {
+                                         [self _optionsViewDidAppear];
+                                     }];
+                } else {
+                    CGPoint center = [self _scrollContentViewStartPoint];
+                    if ( CGPointEqualToPoint(center, self.scrollViewContentView.center) ) {
+                        // In the case the pan gesture ended at the center point
+                        self.scrollViewContentView.center = center;
+                        [self _optionsViewDidDisappear];
+                    } else {
+                        [UIView animateWithDuration:SMMoreOptionsAnimationDuration animations:^(void) {
+                            self.scrollViewContentView.center = center;
+                        }];
+                    }
                 }
             }
         } break;
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed: {
-            [_scrollView setContentOffset:CGPointZero animated:YES];
-            _scrollView.userInteractionEnabled = NO;
+            self.scrollViewContentView.center = [self _scrollContentViewStartPoint];
         } break;
         default:
             break;
@@ -381,7 +370,7 @@ NSString * const SMMoreOptionsShouldHideNotification = @"SMMoreOptionsHideNotifi
     if ( ntf.object == self )
         return;
     
-    [_scrollView setContentOffset:CGPointZero animated:YES];
+    [self dismissOptionsAnimated:YES];
 }
 
 @end
