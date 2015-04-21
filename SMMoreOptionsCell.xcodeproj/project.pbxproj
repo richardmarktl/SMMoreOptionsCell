@@ -10,10 +10,6 @@
 		7902B4A417C79E9000442AA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A317C79E9000442AA5 /* Foundation.framework */; };
 		7902B4A617C79E9000442AA5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A517C79E9000442AA5 /* CoreGraphics.framework */; };
 		7902B4A817C79E9000442AA5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A717C79E9000442AA5 /* UIKit.framework */; };
-		7902B4AE17C79E9000442AA5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7902B4AC17C79E9000442AA5 /* InfoPlist.strings */; };
-		7902B4B017C79E9000442AA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4AF17C79E9000442AA5 /* main.m */; };
-		7902B4B417C79E9000442AA5 /* SMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4B317C79E9000442AA5 /* SMAppDelegate.m */; };
-		7902B4B617C79E9000442AA5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7902B4B517C79E9000442AA5 /* Images.xcassets */; };
 		7902B4BD17C79E9000442AA5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4BC17C79E9000442AA5 /* XCTest.framework */; };
 		7902B4BE17C79E9000442AA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A317C79E9000442AA5 /* Foundation.framework */; };
 		7902B4BF17C79E9000442AA5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A717C79E9000442AA5 /* UIKit.framework */; };
@@ -21,10 +17,13 @@
 		7902B4C917C79E9000442AA5 /* SMMoreOptionsCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4C817C79E9000442AA5 /* SMMoreOptionsCellTests.m */; };
 		7902B4D417C79F1E00442AA5 /* SMMoreOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4D317C79F1E00442AA5 /* SMMoreOptionsCell.m */; };
 		7902B4D517C79F1E00442AA5 /* SMMoreOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4D317C79F1E00442AA5 /* SMMoreOptionsCell.m */; };
-		7902B4D817C79F7600442AA5 /* SMDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4D717C79F7600442AA5 /* SMDemoViewController.m */; };
-		7902B4D917C79F7600442AA5 /* SMDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4D717C79F7600442AA5 /* SMDemoViewController.m */; };
-		7902B4DC17C7A34F00442AA5 /* SMDemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4DB17C7A34F00442AA5 /* SMDemoCell.m */; };
-		7902B4DD17C7A34F00442AA5 /* SMDemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4DB17C7A34F00442AA5 /* SMDemoCell.m */; };
+		797964041AE683AF00D2DFD7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 797963F81AE683AF00D2DFD7 /* InfoPlist.strings */; };
+		797964051AE683AF00D2DFD7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797963FA1AE683AF00D2DFD7 /* Images.xcassets */; };
+		797964061AE683AF00D2DFD7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 797963FB1AE683AF00D2DFD7 /* main.m */; };
+		797964071AE683AF00D2DFD7 /* SMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 797963FD1AE683AF00D2DFD7 /* SMAppDelegate.m */; };
+		797964081AE683AF00D2DFD7 /* SMDemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 797963FF1AE683AF00D2DFD7 /* SMDemoCell.m */; };
+		797964091AE683AF00D2DFD7 /* SMDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 797964011AE683AF00D2DFD7 /* SMDemoViewController.m */; };
+		7979640A1AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 797964021AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,13 +41,6 @@
 		7902B4A317C79E9000442AA5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7902B4A517C79E9000442AA5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		7902B4A717C79E9000442AA5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		7902B4AB17C79E9000442AA5 /* SMMoreOptionsCell-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SMMoreOptionsCell-Info.plist"; sourceTree = "<group>"; };
-		7902B4AD17C79E9000442AA5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		7902B4AF17C79E9000442AA5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7902B4B117C79E9000442AA5 /* SMMoreOptionsCell-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SMMoreOptionsCell-Prefix.pch"; sourceTree = "<group>"; };
-		7902B4B217C79E9000442AA5 /* SMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMAppDelegate.h; sourceTree = "<group>"; };
-		7902B4B317C79E9000442AA5 /* SMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMAppDelegate.m; sourceTree = "<group>"; };
-		7902B4B517C79E9000442AA5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7902B4BB17C79E9000442AA5 /* SMMoreOptionsCellTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SMMoreOptionsCellTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7902B4BC17C79E9000442AA5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		7902B4C417C79E9000442AA5 /* SMMoreOptionsCellTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SMMoreOptionsCellTests-Info.plist"; sourceTree = "<group>"; };
@@ -56,10 +48,17 @@
 		7902B4C817C79E9000442AA5 /* SMMoreOptionsCellTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMMoreOptionsCellTests.m; sourceTree = "<group>"; };
 		7902B4D217C79F1E00442AA5 /* SMMoreOptionsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMMoreOptionsCell.h; sourceTree = "<group>"; };
 		7902B4D317C79F1E00442AA5 /* SMMoreOptionsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMMoreOptionsCell.m; sourceTree = "<group>"; };
-		7902B4D617C79F7600442AA5 /* SMDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDemoViewController.h; sourceTree = "<group>"; };
-		7902B4D717C79F7600442AA5 /* SMDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDemoViewController.m; sourceTree = "<group>"; };
-		7902B4DA17C7A34F00442AA5 /* SMDemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDemoCell.h; sourceTree = "<group>"; };
-		7902B4DB17C7A34F00442AA5 /* SMDemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDemoCell.m; sourceTree = "<group>"; };
+		797963F91AE683AF00D2DFD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		797963FA1AE683AF00D2DFD7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		797963FB1AE683AF00D2DFD7 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		797963FC1AE683AF00D2DFD7 /* SMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAppDelegate.h; sourceTree = "<group>"; };
+		797963FD1AE683AF00D2DFD7 /* SMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAppDelegate.m; sourceTree = "<group>"; };
+		797963FE1AE683AF00D2DFD7 /* SMDemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDemoCell.h; sourceTree = "<group>"; };
+		797963FF1AE683AF00D2DFD7 /* SMDemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDemoCell.m; sourceTree = "<group>"; };
+		797964001AE683AF00D2DFD7 /* SMDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDemoViewController.h; sourceTree = "<group>"; };
+		797964011AE683AF00D2DFD7 /* SMDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMDemoViewController.m; sourceTree = "<group>"; };
+		797964021AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SMMoreOptionsCell-Info.plist"; sourceTree = "<group>"; };
+		797964031AE683AF00D2DFD7 /* SMMoreOptionsCell-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SMMoreOptionsCell-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +88,7 @@
 		7902B49717C79E9000442AA5 = {
 			isa = PBXGroup;
 			children = (
+				797963F71AE683AF00D2DFD7 /* Example */,
 				7902B4A917C79E9000442AA5 /* SMMoreOptionsCell */,
 				7902B4C217C79E9000442AA5 /* SMMoreOptionsCellTests */,
 				7902B4A217C79E9000442AA5 /* Frameworks */,
@@ -121,27 +121,8 @@
 			children = (
 				7902B4D217C79F1E00442AA5 /* SMMoreOptionsCell.h */,
 				7902B4D317C79F1E00442AA5 /* SMMoreOptionsCell.m */,
-				7902B4B217C79E9000442AA5 /* SMAppDelegate.h */,
-				7902B4B317C79E9000442AA5 /* SMAppDelegate.m */,
-				7902B4B517C79E9000442AA5 /* Images.xcassets */,
-				7902B4AA17C79E9000442AA5 /* Supporting Files */,
-				7902B4D617C79F7600442AA5 /* SMDemoViewController.h */,
-				7902B4D717C79F7600442AA5 /* SMDemoViewController.m */,
-				7902B4DA17C7A34F00442AA5 /* SMDemoCell.h */,
-				7902B4DB17C7A34F00442AA5 /* SMDemoCell.m */,
 			);
 			path = SMMoreOptionsCell;
-			sourceTree = "<group>";
-		};
-		7902B4AA17C79E9000442AA5 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7902B4AB17C79E9000442AA5 /* SMMoreOptionsCell-Info.plist */,
-				7902B4AC17C79E9000442AA5 /* InfoPlist.strings */,
-				7902B4AF17C79E9000442AA5 /* main.m */,
-				7902B4B117C79E9000442AA5 /* SMMoreOptionsCell-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		7902B4C217C79E9000442AA5 /* SMMoreOptionsCellTests */ = {
@@ -158,6 +139,32 @@
 			children = (
 				7902B4C417C79E9000442AA5 /* SMMoreOptionsCellTests-Info.plist */,
 				7902B4C517C79E9000442AA5 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		797963F71AE683AF00D2DFD7 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				7979640B1AE683BD00D2DFD7 /* Supporting Files */,
+				797963FA1AE683AF00D2DFD7 /* Images.xcassets */,
+				797963FC1AE683AF00D2DFD7 /* SMAppDelegate.h */,
+				797963FD1AE683AF00D2DFD7 /* SMAppDelegate.m */,
+				797963FE1AE683AF00D2DFD7 /* SMDemoCell.h */,
+				797963FF1AE683AF00D2DFD7 /* SMDemoCell.m */,
+				797964001AE683AF00D2DFD7 /* SMDemoViewController.h */,
+				797964011AE683AF00D2DFD7 /* SMDemoViewController.m */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
+		7979640B1AE683BD00D2DFD7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				797963F81AE683AF00D2DFD7 /* InfoPlist.strings */,
+				797963FB1AE683AF00D2DFD7 /* main.m */,
+				797964021AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist */,
+				797964031AE683AF00D2DFD7 /* SMMoreOptionsCell-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -210,6 +217,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Sonico GmbH";
 				TargetAttributes = {
+					7902B49F17C79E9000442AA5 = {
+						DevelopmentTeam = XTC37GUKV9;
+					};
 					7902B4BA17C79E9000442AA5 = {
 						TestTargetID = 7902B49F17C79E9000442AA5;
 					};
@@ -238,8 +248,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7902B4AE17C79E9000442AA5 /* InfoPlist.strings in Resources */,
-				7902B4B617C79E9000442AA5 /* Images.xcassets in Resources */,
+				7979640A1AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist in Resources */,
+				797964051AE683AF00D2DFD7 /* Images.xcassets in Resources */,
+				797964041AE683AF00D2DFD7 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,11 +269,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7902B4B417C79E9000442AA5 /* SMAppDelegate.m in Sources */,
-				7902B4D817C79F7600442AA5 /* SMDemoViewController.m in Sources */,
-				7902B4DC17C7A34F00442AA5 /* SMDemoCell.m in Sources */,
 				7902B4D417C79F1E00442AA5 /* SMMoreOptionsCell.m in Sources */,
-				7902B4B017C79E9000442AA5 /* main.m in Sources */,
+				797964081AE683AF00D2DFD7 /* SMDemoCell.m in Sources */,
+				797964061AE683AF00D2DFD7 /* main.m in Sources */,
+				797964091AE683AF00D2DFD7 /* SMDemoViewController.m in Sources */,
+				797964071AE683AF00D2DFD7 /* SMAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,8 +281,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7902B4DD17C7A34F00442AA5 /* SMDemoCell.m in Sources */,
-				7902B4D917C79F7600442AA5 /* SMDemoViewController.m in Sources */,
 				7902B4C917C79E9000442AA5 /* SMMoreOptionsCellTests.m in Sources */,
 				7902B4D517C79F1E00442AA5 /* SMMoreOptionsCell.m in Sources */,
 			);
@@ -288,18 +297,18 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7902B4AC17C79E9000442AA5 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7902B4AD17C79E9000442AA5 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		7902B4C517C79E9000442AA5 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				7902B4C617C79E9000442AA5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		797963F81AE683AF00D2DFD7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				797963F91AE683AF00D2DFD7 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -380,10 +389,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SMMoreOptionsCell/SMMoreOptionsCell-Prefix.pch";
-				INFOPLIST_FILE = "SMMoreOptionsCell/SMMoreOptionsCell-Info.plist";
+				GCC_PREFIX_HEADER = "Example/SMMoreOptionsCell-Prefix.pch";
+				INFOPLIST_FILE = "Example/SMMoreOptionsCell-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -393,10 +405,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SMMoreOptionsCell/SMMoreOptionsCell-Prefix.pch";
-				INFOPLIST_FILE = "SMMoreOptionsCell/SMMoreOptionsCell-Info.plist";
+				GCC_PREFIX_HEADER = "Example/SMMoreOptionsCell-Prefix.pch";
+				INFOPLIST_FILE = "Example/SMMoreOptionsCell-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -411,7 +426,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SMMoreOptionsCell/SMMoreOptionsCell-Prefix.pch";
+				GCC_PREFIX_HEADER = "Example/SMMoreOptionsCell-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -433,7 +448,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SMMoreOptionsCell/SMMoreOptionsCell-Prefix.pch";
+				GCC_PREFIX_HEADER = "Example/SMMoreOptionsCell-Prefix.pch";
 				INFOPLIST_FILE = "SMMoreOptionsCellTests/SMMoreOptionsCellTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
