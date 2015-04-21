@@ -13,7 +13,6 @@
 		7902B4BD17C79E9000442AA5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4BC17C79E9000442AA5 /* XCTest.framework */; };
 		7902B4BE17C79E9000442AA5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A317C79E9000442AA5 /* Foundation.framework */; };
 		7902B4BF17C79E9000442AA5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7902B4A717C79E9000442AA5 /* UIKit.framework */; };
-		7902B4C717C79E9000442AA5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7902B4C517C79E9000442AA5 /* InfoPlist.strings */; };
 		7902B4C917C79E9000442AA5 /* SMMoreOptionsCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4C817C79E9000442AA5 /* SMMoreOptionsCellTests.m */; };
 		7902B4D417C79F1E00442AA5 /* SMMoreOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4D317C79F1E00442AA5 /* SMMoreOptionsCell.m */; };
 		7902B4D517C79F1E00442AA5 /* SMMoreOptionsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7902B4D317C79F1E00442AA5 /* SMMoreOptionsCell.m */; };
@@ -23,7 +22,6 @@
 		797964071AE683AF00D2DFD7 /* SMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 797963FD1AE683AF00D2DFD7 /* SMAppDelegate.m */; };
 		797964081AE683AF00D2DFD7 /* SMDemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 797963FF1AE683AF00D2DFD7 /* SMDemoCell.m */; };
 		797964091AE683AF00D2DFD7 /* SMDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 797964011AE683AF00D2DFD7 /* SMDemoViewController.m */; };
-		7979640A1AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 797964021AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,7 +246,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7979640A1AE683AF00D2DFD7 /* SMMoreOptionsCell-Info.plist in Resources */,
 				797964051AE683AF00D2DFD7 /* Images.xcassets in Resources */,
 				797964041AE683AF00D2DFD7 /* InfoPlist.strings in Resources */,
 			);
@@ -258,7 +255,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7902B4C717C79E9000442AA5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
